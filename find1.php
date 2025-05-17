@@ -1,16 +1,10 @@
 <?php
-// URL tempat list keyword berada
-$url_keyword = isset($_GET['list']) ? $_GET['list'] : '';
+// URL tetap (bisa kamu ganti ke URL lain)
+$url = 'https://paste.ee/r/k2gAuv9E/0';
 
-if (empty($url_keyword)) {
-    echo "Tambahkan parameter ?list=URL_LIST_KEYWORD, contoh: ?list=https://paste.ee/r/k2gAuv9E/0\n";
-    exit;
-}
-
-// Ambil isi keyword dari URL
-$keywords_raw = @file_get_contents($url_keyword);
+$keywords_raw = @file_get_contents($url);
 if (!$keywords_raw) {
-    echo "Gagal mengambil daftar dari URL: $url_keyword\n";
+    echo "Gagal mengambil daftar dari URL: $url\n";
     exit;
 }
 
@@ -55,17 +49,15 @@ function cari_kata_dalam_file($dir, $keywords, &$hasil) {
     }
 }
 
-// Jalankan pencarian
 cari_kata_dalam_file($folder_mulai, $keywords, $hasil);
 
-// Tampilkan hasil
 if ($hasil) {
-    echo "=== Hasil Pencarian dari daftar: '$url_keyword' ===\n\n";
+    echo "\n=== Hasil Pencarian dari: '$url' ===\n\n";
     foreach ($hasil as $item) {
-        echo "Keyword: {$item['keyword']}\n";
+        echo "\033[32mKeyword: {$item['keyword']}\n";
         echo "File   : {$item['file']}\n";
         echo "Baris  : {$item['baris']}\n";
-        echo "Kode   : {$item['isi']}\n";
+        echo "Kode   : {$item['isi']}\033[0m\n";
         echo "-----------------------------\n";
     }
 } else {
