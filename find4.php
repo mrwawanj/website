@@ -1,6 +1,6 @@
 <?php
 // URL tetap (bisa kamu ganti ke URL lain)
-$url = 'https://paste.ee/r/AbrRPaML/0';
+$url = 'https://paste.ee/r/q7BMl7RL/0';
 
 $keywords_raw = @file_get_contents($url);
 if (!$keywords_raw) {
