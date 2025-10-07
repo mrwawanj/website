@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # kill-procs-and-cron.sh
-# Deskripsi: Deteksi user target, paksa kill proses (php, bash, perl, pl), lalu hapus crontab user.
+# Deskripsi: Deteksi user target, paksa kill proses (php, bash, perl, pl, python, ruby), lalu hapus crontab user.
 
 set -euo pipefail
 
@@ -31,7 +31,7 @@ fi
 echo "Target user yang terdeteksi: $TARGET_USER"
 
 # Proses yang akan dibunuh
-PROCESS_NAMES=(php bash perl pl)
+PROCESS_NAMES=(php bash perl pl python python2 python3 ruby)
 
 echo
 echo "Proses milik user $TARGET_USER yang cocok sebelum pkill -9:"
