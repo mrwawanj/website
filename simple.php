@@ -4,14 +4,21 @@ function scanDirectory($dir, $logFile) {
     foreach ($files as $file) {
         if ($file != "." && $file != "..") {
             $path = $dir . "/" . $file;
-            if (is_dir($path)) {
-                scanDirectory($path, $logFile);
-            } else {
+            if (is_file($path)) {
                 $fileExtension = pathinfo($path, PATHINFO_EXTENSION);
                 if ($fileExtension === "php" && isFileInfected($path)) {
                     $infectedFileMessage = "File terinfeksi: " . $path . PHP_EOL;
                     echo "\033[31m" . $infectedFileMessage . "\033[0m";
-                    file_put_contents($logFile, $infectedFileMessage, FILE_APPEND);
+
+                    // Tampilkan 30 baris pertama kode mencurigakan
+                    $lines = file($path);
+                    $snippet = implode("", array_slice($lines, 0, 30));
+                    echo "\033[33m----- Cuplikan 30 baris pertama -----\033[0m\n";
+                    echo $snippet . "\n";
+                    echo "\033[33m------------------------------------\033[0m\n\n";
+
+                    // Simpan hasil ke log
+                    file_put_contents($logFile, $infectedFileMessage . $snippet . PHP_EOL, FILE_APPEND);
                 }
             }
         }
@@ -29,8 +36,8 @@ function isFileInfected($file) {
     return false;
 }
 
-$currentDirectory = dirname(__FILE__);
-$logFile = 'scan_results.txt'; // Nama file log tempat menyimpan hasil scan
+$currentDirectory = __DIR__;
+$logFile = 'aaas.txt'; // Nama file log tempat menyimpan hasil scan
 scanDirectory($currentDirectory, $logFile);
 
 echo "Hasil scan disimpan di: " . $logFile . PHP_EOL;
